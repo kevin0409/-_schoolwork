@@ -1,0 +1,75 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "C/C++: clang 활성 파일 빌드 및 디버그",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${fileDirname}/${fileBasenameNoExtension}",
+            "args": [
+                "-g",
+                "${file}",
+                "-o",
+                "${fileDirname}/${fileBasenameNoExtension}.out"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "lldb",
+            "preLaunchTask": "C/C++: clang 활성 파일 빌드"
+        },
+        {
+            "name": "C/C++: gcc 활성 파일 빌드 및 디버그",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${fileDirname}/${fileBasenameNoExtension}",
+            "args": [
+                "-g",
+                "-std=c++14",
+                "${file}",
+                "-o",
+                "${fileDirname}/${fileBasenameNoExtension}"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "lldb",
+            "preLaunchTask": "C/C++: gcc 활성 파일 빌드"
+        },
+        {
+            "name": "(lldb) 시작",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "프로그램 이름 입력(예: ${workspaceFolder}/a.out)",
+            "args": [ "-g",
+            "${file}",
+            "-o",
+            "${fileDirname}/${fileBasenameNoExtension}.out"],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "lldb"
+        },
+        {
+            "name": "C/C++: gcc-12 활성 파일 빌드 및 디버그",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "/opt/homebrew/bin/x86_64-apple-darwin20.6.0-clang",
+            "args": [
+                "-g",
+                "${file}",
+                "-o",
+                "${fileDirname}/${fileBasenameNoExtension}.out"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "lldb-mi",
+            "preLaunchTask": "C/C++: gcc-12 활성 파일 빌드"
+        }
+    ]
+}
