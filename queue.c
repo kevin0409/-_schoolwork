@@ -90,7 +90,8 @@ void insert_queue(int priority, int computing_time) {
     } 
     else {
         queue_pointer p = q->front;
-        queue_pointer trail = NULL;
+        //queue_pointer trail = NULL;
+        queue_pointer trail = q->front->left_link;
         if (p == NULL) {
             trail->right_link = temp;
             temp->left_link = trail;
@@ -151,10 +152,11 @@ void delete_queue() {
 }
 
 void print_queue(head_pointer q) {
+    
     queue_pointer p = q->front;
     while (p != NULL) {
         printf("%d\t%d\t\t%d\n", p->id, p->priority, p->computing_time);
         p = p->right_link;
     }
-    printf("\n");
+    //printf("\n");
 }
