@@ -23,7 +23,7 @@ head_pointer queues[NUM_QUEUES];
 
 void initialize_queue(void);
 void insert_queue(int priority, int computing_time);
-void delete_queue(void);
+int delete_queue(int priority);
 void print_queue(head_pointer q);
 
 int main() {
@@ -42,8 +42,9 @@ int main() {
         }
         if (type == 0) {
             insert_queue(priority, computing_time);
-        } else if (type == 1) {
-            delete_queue();
+        } 
+        else if (type == 1) {
+            delete_queue(priority);
         }
     }
 
@@ -111,44 +112,44 @@ void insert_queue(int priority, int computing_time) {
     }
 }
 
-void delete_queue() {
-    head_pointer q = NULL;
-    int i;
-    for (i = 0; i < 3; i++) {
-        if (queues[i]->front != NULL) {
-            q = queues[i];
-            break;
-        }
-    }
-    if (q == NULL) {
-        printf("Queue is empty.\n");
-        return; 
+int delete_queue(int priority) {
+    queue_pointer node;
+    int queue_id;
+
+    if (priority < 1 || priority > 30) {
+        printf("Error: Invalid priority value.\n");
+        return -1;
     }
 
-    queue_pointer p = q->front;
-    queue_pointer max = p;
-    while (p != NULL) {
-        if (p->priority > max->priority) {
-            max = p;
-        }
-        p = p->right_link;
+    if (priority >= 1 && priority <= 10) {
+        queue_id = 0;
+    }
+    else if (priority >= 11 && priority <= 20) {
+        queue_id = 1;
+    }
+    else {
+        queue_id = 2;
     }
 
-    if (max == q->front) {
-        q->front = max->right_link;
-        if (q->front != NULL) {
-            q->front->left_link = NULL;
-        }
-    } else if (max == q->rear) {
-        q->rear = max->left_link;
-        if (q->rear != NULL) {
-            q->rear->right_link = NULL;
-        }
-    } else {
-        max->left_link->right_link = max->right_link;
-        max->right_link->left_link = max->left_link;
+    if (queues[queue_id]->front == NULL) return 0;
+    if (queues[queue_id]->front->priority > priority) return 0;
+
+
+    node = queues[queue_id]->front;
+
+    if (node->right_link == NULL) {
+        queues[queue_id]->front = NULL;   
     }
-    free(max);
+    else {
+        queues[queue_id]->front = node->right_link;
+        //node->right_link->left_link = queues[queue_id];
+    }
+
+    //printf("%d\t\t%d\t\t%d\n",queue_id+1, node->priority, node->computing_time);
+
+    free(node);
+
+    return 0;
 }
 
 void print_queue(head_pointer q) {
