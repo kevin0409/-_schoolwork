@@ -72,26 +72,24 @@ void insert_queue(int priority, int computing_time) {
     temp->computing_time = computing_time;
     temp->left_link = temp->right_link = NULL;
 
-    head_pointer q = NULL;
+    int queue_id;
     if (priority >= 1 && priority <= 10) {
-        q = queues[0];
-        temp -> id = 1;
+        queue_id = 0;
     } 
     else if (priority >= 11 && priority <= 20) {
-        q = queues[1];
-        temp -> id = 2;
+        queue_id = 1;
     } 
-    else if (priority >= 21 && priority <= 30) {
-        q = queues[2];
-        temp -> id = 3;
+    else {
+        queue_id = 2;
     }
+    head_pointer q = queues[queue_id];
+    temp->id = queue_id + 1;
 
     if (q->front == NULL) {
         q->front = q->rear = temp;
     } 
     else {
         queue_pointer p = q->front;
-        //queue_pointer trail = NULL;
         queue_pointer trail = q->front->left_link;
         if (p == NULL) {
             trail->right_link = temp;
@@ -111,7 +109,6 @@ void insert_queue(int priority, int computing_time) {
         }
     }
 }
-
 int delete_queue(int priority) {
     queue_pointer node;
     int queue_id;
@@ -132,22 +129,28 @@ int delete_queue(int priority) {
     }
 
     if (queues[queue_id]->front == NULL) return 0;
-    if (queues[queue_id]->front->priority > priority) return 0;
-
 
     node = queues[queue_id]->front;
 
-    if (node->right_link == NULL) {
-        queues[queue_id]->front = NULL;   
+    while (node != NULL) {
+        if (node->priority == priority) {
+            if (node->left_link == NULL) {
+                queues[queue_id]->front = node->right_link;
+            }
+            else {
+                node->left_link->right_link = node->right_link;
+            }
+            if (node->right_link == NULL) {
+                queues[queue_id]->rear = node->left_link;
+            }
+            else {
+                node->right_link->left_link = node->left_link;
+            }
+            free(node);
+            return 1;
+        }
+        node = node->right_link;
     }
-    else {
-        queues[queue_id]->front = node->right_link;
-        //node->right_link->left_link = queues[queue_id];
-    }
-
-    //printf("%d\t\t%d\t\t%d\n",queue_id+1, node->priority, node->computing_time);
-
-    free(node);
 
     return 0;
 }
@@ -159,5 +162,4 @@ void print_queue(head_pointer q) {
         printf("%d\t%d\t\t%d\n", p->id, p->priority, p->computing_time);
         p = p->right_link;
     }
-    //printf("\n");
 }
